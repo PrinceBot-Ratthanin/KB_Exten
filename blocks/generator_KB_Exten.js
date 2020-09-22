@@ -5,6 +5,21 @@ Blockly.JavaScript['KB_Exten_setup'] = function (block) {
 	code += 'setup_KB_Exten();\n';
     return code;
 };
+Blockly.JavaScript['KB_Exten_Servo_motor'] = function(block) {
+  var dropdown_ch = block.getFieldValue('port');
+  var value_degree = Blockly.JavaScript.valueToCode(block, 'degree', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var code = 'servo_write(' + dropdown_ch + ', ' + value_degree +');\n';
+  /*var code = '';
+  if(dropdown_ch == 1){
+    code += 'motor(1, 2, ' + value_speed + ');\t';
+    code += 'motor(2, 1, ' + value_speed + ');\n';
+  }
+  else if(dropdown_ch == 2){
+    code += 'motor(1, 1, ' + value_speed + ');\t';
+    code += 'motor(2, 2, ' + value_speed + ');\n';
+  }*/
+  return code;
+};
 Blockly.JavaScript['KB_Exten_motor'] = function(block) {
   var dropdown_ch = block.getFieldValue('ch');
   var dropdown_dir = block.getFieldValue('dir');
@@ -15,16 +30,19 @@ Blockly.JavaScript['KB_Exten_motor'] = function(block) {
 Blockly.JavaScript['KB_Exten_motor_forward'] = function(block) {
   var value_speed = Blockly.JavaScript.valueToCode(block, 'speed', Blockly.JavaScript.ORDER_ATOMIC) || '0';
   var code = '';
-  code += 'motor(1, 1, ' + value_speed + ');\t';
-  code += 'motor(2, 1, ' + value_speed + ');\n';
+  //code += 'motor(2, 1, ' + value_speed + ');\n';
+  //code += 'motor(1, 1, ' + value_speed + ');\t';
+  code += 'motor_control(0,' + value_speed + ');\t';
+  
   return code;
 };
 
 Blockly.JavaScript['KB_Exten_motor_backward'] = function(block) {
   var value_speed = Blockly.JavaScript.valueToCode(block, 'speed', Blockly.JavaScript.ORDER_ATOMIC) || '0';
   var code = '';
-  code += 'motor(1, 2, ' + value_speed + ');\t';
-  code += 'motor(2, 2, ' + value_speed + ');\n';
+  // code += 'motor(1, 2, ' + value_speed + ');\t';
+  // code += 'motor(2, 2, ' + value_speed + ');\n';
+  code += 'motor_control(1,' + value_speed + ');\t';
   return code;
 };
 Blockly.JavaScript['KB_Exten_motor_spin'] = function(block) {
@@ -32,12 +50,14 @@ Blockly.JavaScript['KB_Exten_motor_spin'] = function(block) {
   var value_speed = Blockly.JavaScript.valueToCode(block, 'speed', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   var code = '';
   if(dropdown_ch == 1){
-    code += 'motor(1, 2, ' + value_speed + ');\t';
-    code += 'motor(2, 1, ' + value_speed + ');\n';
+    // code += 'motor(1, 2, ' + value_speed + ');\t';
+    // code += 'motor(2, 1, ' + value_speed + ');\n';
+    code += 'motor_control(4,' + value_speed + ');\t';
   }
   else if(dropdown_ch == 2){
-    code += 'motor(1, 1, ' + value_speed + ');\t';
-    code += 'motor(2, 2, ' + value_speed + ');\n';
+    // code += 'motor(1, 1, ' + value_speed + ');\t';
+    // code += 'motor(2, 2, ' + value_speed + ');\n';
+    code += 'motor_control(5,' + value_speed + ');\t';
   }
   return code;
 };
@@ -46,12 +66,14 @@ Blockly.JavaScript['KB_Exten_motor_turn'] = function(block) {
   var value_speed = Blockly.JavaScript.valueToCode(block, 'speed', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   var code = '';
   if(dropdown_ch == 1){
-    code += 'motor(1, 1, 0);\t';
-    code += 'motor(2, 1, ' + value_speed + ');\n';
+    // code += 'motor(1, 2, 1);\t';
+    // code += 'motor(2, 1, ' + value_speed + ');\n';
+    code += 'motor_control(2,' + value_speed + ');\t';
   }
   else if(dropdown_ch == 2){
-    code += 'motor(1, 1, ' + value_speed + ');\t';
-    code += 'motor(2, 1, 0);\n';
+    // code += 'motor(1, 1, ' + value_speed + ');\t';
+    // code += 'motor(2, 2, 1);\n';
+    code += 'motor_control(3,' + value_speed + ');\t';
   }
   return code;
 };
@@ -59,14 +81,14 @@ Blockly.JavaScript['KB_Exten_motor_stop_ch'] = function(block) {
   var dropdown_ch = block.getFieldValue('ch');
   var code = '';
   if(dropdown_ch == 0){
-    code += 'motor( 1, 1, 0);\n';
-    code += 'motor( 2, 1, 0);\n';
+    code += 'motor( 1, 2, 1);\n';
+    code += 'motor( 2, 2, 1);\n';
   }
   else if(dropdown_ch == 1){
-    code = 'motor( 1, 1, 0);\n';
+    code = 'motor( 1, 2, 1);\n';
   }
   else if(dropdown_ch == 2){
-    code = 'motor( 2, 1, 0);\n';
+    code = 'motor( 2, 2, 1);\n';
   }
   
   return code;

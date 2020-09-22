@@ -22,6 +22,7 @@
 #define read_ds18b20 14
 #define set_ultrasonic 15
 #define read_ultrasonic 16
+#define motor_control_state 20
 
 void i2c_send(byte data)
 {
@@ -45,10 +46,10 @@ int i2c_request(int byte_num)
 void servo_write(int port_servo,int degree){
   if(degree < 0)degree = 0;
   if(degree > 180)degree = 180;
-  if(port_servo >0 && port_servo <=4){
+  if(port_servo >=0 && port_servo <=4){
     i2c_send(header);i2c_send(70 + port_servo);i2c_send(degree);i2c_send(stop_bit);
   }  
-  delay(10);
+  delay(40);
 }
 void motor(uint8_t port_motor,uint8_t dir,uint8_t speed){
   if(speed > 100)speed = 100;
@@ -60,7 +61,10 @@ void motor(uint8_t port_motor,uint8_t dir,uint8_t speed){
     if(dir == 1){i2c_send(header);i2c_send(0x05);i2c_send(speed);i2c_send(stop_bit);}
     else if(dir == 2){i2c_send(header);i2c_send(0x6);i2c_send(speed);i2c_send(stop_bit);}
   }
-  delay(10);
+  //delay(20);
+}
+void motor_control(uint8_t state,uint8_t speed){
+  i2c_send(header);i2c_send(motor_control_state);i2c_send(state);i2c_send(speed);i2c_send(stop_bit);
 }
 int analog_Read(uint8_t port_analog){
   int analog_data = 0;

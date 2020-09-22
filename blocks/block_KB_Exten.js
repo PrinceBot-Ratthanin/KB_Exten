@@ -9,6 +9,23 @@ Blockly.Blocks['KB_Exten_setup'] = {
     this.setTooltip("");
   }
 };
+Blockly.Blocks['KB_Exten_Servo_motor'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField("Set servo:")
+      .appendField(new Blockly.FieldDropdown([["D10","0"], ["D11","1"], ["D12","2"], ["D13","3"]]), "port");
+    this.appendValueInput("degree")
+      .setCheck("Number")
+      .appendField("at");
+    this.appendDummyInput()
+      .appendField("%");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(180);
+    this.setTooltip("");
+  }
+};
 Blockly.Blocks['KB_Exten_motor'] = {
   init: function() {
     this.appendDummyInput()
