@@ -23,6 +23,10 @@
 #define set_ultrasonic 15
 #define read_ultrasonic 16
 #define motor_control_state 20
+int present_angleS1 = 90;
+int present_angleS2 = 90;
+int present_angleS3 = 90;
+int present_angleS4 = 90;
 
 void i2c_send(byte data)
 {
@@ -49,7 +53,7 @@ void servo_write(int port_servo,int degree){
   if(port_servo >=0 && port_servo <=4){
     i2c_send(header);i2c_send(70 + port_servo);i2c_send(degree);i2c_send(stop_bit);
   }  
-  delay(40);
+  //delay(40);
 }
 void motor(uint8_t port_motor,uint8_t dir,uint8_t speed){
   if(speed > 100)speed = 100;
@@ -125,7 +129,43 @@ void setup_KB_Exten(){
   Wire1.begin(4, 5);
   i2c_send(header);
   i2c_send(reset_board);
+  i2c_send(stop_bit);
   motor(1,1,0);
   motor(2,1,0);
-  //Serial.begin(115200);
+  delay(100);
+}
+void servo_moving(uint8_t ch,uint8_t present_angle,uint8_t traget_angle,int speed_servo){
+  if(present_angle > traget_angle){
+    for(int i = present_angle;i>traget_angle;i-=2){
+      servo_write(ch,i);delay(speed_servo);
+    }
+    
+  }
+  else if(present_angle <= traget_angle){
+   for(int i = present_angle;i<traget_angle;i+=2){
+      servo_write(ch,i);delay(speed_servo);
+    }
+  }
+}
+bool servo_run(int ch,int traget_angle,int speed_servo,int servo_dif){
+  if(ch == 0){
+    if((present_angleS1 - traget_angle) >servo_dif+1){present_angleS1 -= servo_dif;}
+    else if((traget_angle - present_angleS1) >servo_dif+1){present_angleS1 += servo_dif;}
+    else{return 1;}servo_write(ch,present_angleS1);delay(speed_servo);return 0;
+  }
+  if(ch == 1){
+    if((present_angleS2 - traget_angle) >servo_dif+1){present_angleS2 -= servo_dif;}
+    else if((traget_angle - present_angleS2) >servo_dif+1){present_angleS2 += servo_dif;}
+    else{return 1;}servo_write(ch,present_angleS2);delay(speed_servo);return 0;
+  }
+  if(ch == 2){
+    if((present_angleS3 - traget_angle) >servo_dif+1){present_angleS3 -= servo_dif;}
+    else if((traget_angle - present_angleS3) >servo_dif+1){present_angleS3 += servo_dif;}
+    else{return 1;}servo_write(ch,present_angleS3);delay(speed_servo);return 0;
+  }
+  if(ch == 3){
+    if((present_angleS4 - traget_angle) >servo_dif+1){present_angleS4 -= servo_dif;}
+    else if((traget_angle - present_angleS4) >servo_dif+1){present_angleS4 += servo_dif;}
+    else{return 1;}servo_write(ch,present_angleS4);delay(speed_servo);return 0;
+  }
 }

@@ -18,7 +18,7 @@ Blockly.Blocks['KB_Exten_Servo_motor'] = {
       .setCheck("Number")
       .appendField("at");
     this.appendDummyInput()
-      .appendField("%");
+      .appendField("degree");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -279,5 +279,48 @@ Blockly.Blocks['KB_Exten_read_dht'] = {
     this.setColour(220);
  this.setTooltip("read analog value from pin");
  this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['KB_Exten_Servo_motor_Moving'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField("Set servo:")
+      .appendField(new Blockly.FieldDropdown([["D10","0"], ["D11","1"], ["D12","2"], ["D13","3"]]), "port");
+    this.appendValueInput("present_angle")
+      .setCheck("Number")
+      .appendField("from angle");
+    this.appendValueInput("traget_angle")
+      .setCheck("Number")
+      .appendField("To");
+    this.appendValueInput("speed_servo")
+      .setCheck("Number")
+      .appendField("speed:");
+    this.appendDummyInput()
+      .appendField("ms");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(180);
+    this.setTooltip("");
+  }
+};
+Blockly.Blocks['KB_Exten_Servo_run'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField("Set")
+      .appendField(new Blockly.FieldDropdown([["D10","0"], ["D11","1"], ["D12","2"], ["D13","3"]]), "port");
+    this.appendValueInput("traget_angle")
+      .setCheck("Number")
+      .appendField("Servo move by step to:");
+    this.appendValueInput("speed_servo")
+      .setCheck("Number")
+      .appendField("speed:");
+    this.appendValueInput("servo_dif")
+      .setCheck("Number")
+      .appendField("% dif:");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(180);
+    this.setTooltip("");
   }
 };

@@ -9,15 +9,6 @@ Blockly.JavaScript['KB_Exten_Servo_motor'] = function(block) {
   var dropdown_ch = block.getFieldValue('port');
   var value_degree = Blockly.JavaScript.valueToCode(block, 'degree', Blockly.JavaScript.ORDER_ATOMIC) || 0;
   var code = 'servo_write(' + dropdown_ch + ', ' + value_degree +');\n';
-  /*var code = '';
-  if(dropdown_ch == 1){
-    code += 'motor(1, 2, ' + value_speed + ');\t';
-    code += 'motor(2, 1, ' + value_speed + ');\n';
-  }
-  else if(dropdown_ch == 2){
-    code += 'motor(1, 1, ' + value_speed + ');\t';
-    code += 'motor(2, 2, ' + value_speed + ');\n';
-  }*/
   return code;
 };
 Blockly.JavaScript['KB_Exten_motor'] = function(block) {
@@ -139,4 +130,20 @@ Blockly.JavaScript['KB_Exten_read_dht'] = function(block) {
   var dropdown_type = block.getFieldValue('type');
     var code = 'dht_Read('+dropdown_type+')\n';
     return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+Blockly.JavaScript['KB_Exten_Servo_motor_Moving'] = function(block) {
+  var dropdown_ch = block.getFieldValue('port');
+  var value_present_angle = Blockly.JavaScript.valueToCode(block, 'present_angle', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var value_traget_angle = Blockly.JavaScript.valueToCode(block, 'traget_angle', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var value_speed_servo = Blockly.JavaScript.valueToCode(block, 'speed_servo', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var code = 'servo_moving(' + dropdown_ch + ', ' + value_present_angle +', ' + value_traget_angle +', ' + value_speed_servo +');\n';
+  return code;
+};
+Blockly.JavaScript['KB_Exten_Servo_run'] = function(block) {
+  var dropdown_ch = block.getFieldValue('port');
+  var value_traget_angle = Blockly.JavaScript.valueToCode(block, 'traget_angle', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var value_speed_servo = Blockly.JavaScript.valueToCode(block, 'speed_servo', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var value_servo_dif = Blockly.JavaScript.valueToCode(block, 'servo_dif', Blockly.JavaScript.ORDER_ATOMIC) || 0;
+  var code = 'servo_run(' + dropdown_ch + ',' + value_traget_angle +', ' + value_speed_servo +', ' + value_servo_dif +')\n';
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
